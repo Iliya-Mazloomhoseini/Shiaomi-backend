@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllUserValidator } from "./UserValidator.jsr";
+import { getAllUserValidator } from "./UserValidator.js";
 import isAdmin from "../../MiddleWare/isAdmin.js";
 import { changePassword, Create, getAll, getOne, update } from "./userCn.js";
 import isLogin from "../../MiddleWare/isLogin.js";
