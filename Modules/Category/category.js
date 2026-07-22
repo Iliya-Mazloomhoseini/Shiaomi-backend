@@ -1,24 +1,24 @@
 import { Router } from "express";
-import isAdmin from "../../MiddleWare/isAdmin.js";
-import isLogin from "../../MiddleWare/isLogin.js";
+import isAdmin from "../../Middlewares/isAdmin.js";
+import { create, getAll, getOne, remove, update } from "./CategoryCn.js";
 import { handleValidationErrors } from "../../Utils/handleValidationError.js";
+
 import {
-  categoryIdParam,
-  createCategoryValidator,
   getAllCategoryValidator,
+  createCategoryValidator,
   updateCategoryValidator,
+  categoryIdParam,
 } from "./CategoryValidator.js";
-import { Create, getAll, getOne, remove, update } from "./categoryCn.js";
-
 const categoryRouter = Router();
-
 categoryRouter
   .route("/")
-  .get(getAllCategoryValidator, handleValidationErrors, getAll)
-  .create(isAdmin, createCategoryValidator, handleValidationErrors, Create);
+  .post(isAdmin, createCategoryValidator, handleValidationErrors, create)
+  .get(getAllCategoryValidator, handleValidationErrors, getAll);
+
 categoryRouter
   .route("/:id")
+  .get(categoryIdParam, handleValidationErrors, getOne)
   .patch(isAdmin, updateCategoryValidator, handleValidationErrors, update)
-  .get(isLogin, categoryIdParam, handleValidationErrors, getOne)
-  .delete(isAdmin, remove);
+  .delete(isAdmin, categoryIdParam, handleValidationErrors, remove);
+
 export default categoryRouter;
